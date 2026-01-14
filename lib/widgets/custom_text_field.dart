@@ -20,7 +20,7 @@ class CustomTextFormField extends StatelessWidget {
     this.enabledBorderColor = Colors.grey,
     this.focusedBorderColor = Colors.blue,
     this.errorBorderColor = Colors.red,
-    this.backgroundColor, this.maxLines,
+    this.backgroundColor, this.maxLines, this.onSaved,
   });
 
   final TextEditingController? controller;
@@ -46,9 +46,14 @@ class CustomTextFormField extends StatelessWidget {
   final Color focusedBorderColor;
   final Color errorBorderColor;
   final Color? backgroundColor;
+  final Function(String?)? onSaved;
+
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+
+      onSaved:  onSaved,
       maxLines:  maxLines,
       controller: controller,
       keyboardType: keyboardType,

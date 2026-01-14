@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'bloc_observer.dart';
+import 'model/note_model.dart';
 import 'notes_app.dart';
-import 'package:hive/hive.dart';
-
-
-void main() {
+import 'package:hive_flutter/hive_flutter.dart';
+void main()async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Initialize Hive
-  // await Hive.initFlutter();
-
-  // Register Hive Adapters (for custom types)??
+  Bloc.observer = MyBlocObserver();
+  await Hive.initFlutter();
+  Hive.registerAdapter(NoteModelAdapter());
+  await Hive.openBox<NoteModel>('notes');
   runApp(const MyApp());
 }
 
