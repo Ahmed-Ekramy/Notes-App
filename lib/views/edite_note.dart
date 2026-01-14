@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:notesapp/model/note_model.dart';
 import 'package:notesapp/widgets/custom_button.dart';
 import 'package:notesapp/widgets/custom_text_field.dart';
 
+import '../cubit/task_cubit.dart';
 import '../widgets/custom_app_bar.dart';
 
 class EditeNote extends StatelessWidget {
-  const EditeNote({super.key});
+  EditeNote({super.key, required this.noteModel});
+
+  final NoteModel noteModel;
+  String? title;
+  String? content;
 
   @override
   Widget build(BuildContext context) {
@@ -18,20 +24,31 @@ class EditeNote extends StatelessWidget {
               CustomAppBar(
                 title: 'Edite Note',
                 icon: Icon(Icons.check, size: 30),
+                onTap: () {
+                  noteModel.title = title?? noteModel.title;
+                  noteModel.description = content?? noteModel.description;
+                  noteModel.save();
+                  TaskCubit.get(context).getTask();
+                  Navigator.pop(context);
+                },
               ),
               SizedBox(height: 5),
               CustomTextFormField(
-                hintText: 'Title',
-                labelText: 'Title',
-                textColor: Colors.black,
+                onChanged: (value) {
+                  title = value;
+                },
+                hintText: noteModel.title,
+                textColor: Colors.white,
                 hintColor: Colors.grey,
                 labelColor: Colors.grey,
               ),
               SizedBox(height: 15),
               CustomTextFormField(
-                hintText: 'Content',
-                labelText: 'Content',
-                textColor: Colors.black,
+                onChanged: (value) {
+                  content = value;
+                },
+                hintText:  noteModel.description,
+                textColor: Colors.white,
                 hintColor: Colors.grey,
                 labelColor: Colors.grey,
                 maxLines: 5,
